@@ -4,6 +4,7 @@ import {Category, ICategory} from "../models/category.model";
 import {LanguageService} from "../services/language.service";
 
 import { MongooseDocument } from "mongoose";
+import { Language, ILanguage } from "../models/language.model";
 
 
 class CategoryHelpers{
@@ -70,6 +71,17 @@ export class CategoryService extends CategoryHelpers{
             res.status(200).json({successed:false});
         }        
 
+    }
+
+    public GetlanguagessByIdCategorie(req: Request, res: Response) {         
+        Language.find().populate("category").exec((err: Error, language: ILanguage) => {
+            if (err) {
+                res.status(401).json(err);
+            } else {
+                res.status(200).json(language);
+            }
+
+        });
     }
 
     public async deleteOne(req: Request, res: Response){
